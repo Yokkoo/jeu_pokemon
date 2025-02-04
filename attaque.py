@@ -1,3 +1,8 @@
+from rich.console import Console
+from rich.table import Table
+
+console = Console(width=200)
+
 class Attaque:
     def __init__(self, nom, type_attaque, categorie, precision, puissance, pp):
         """
@@ -78,9 +83,19 @@ class Attaque:
         """
         Affiche les informations de l'attaque.
         """
-        print("Nom de l'attaque :", self.nom)
-        print("Type :", self.type_attaque)
-        print("Catégorie :", self.categorie)
-        print("Précision :", f"{self.precision}%")
-        print("Puissance :", self.puissance)
-        print("PP :", self.pp)
+        table = Table(title="Attaque")
+
+        table.add_column("Nom", style="cyan", justify="center", no_wrap=True)
+        table.add_column("Type", style="green", justify="center", no_wrap=True)
+        table.add_column("Catégorie", style="magenta", justify="center", no_wrap=True)
+        table.add_column("Précision", style="red", justify="center", no_wrap=True)
+        table.add_column("Puissance", style="yellow", justify="center", no_wrap=True)
+        table.add_column("PP", style="blue", justify="center", no_wrap=True)
+
+        table.add_row(self.nom, self.type_attaque, self.categorie, str(self.precision), str(self.puissance), str(self.pp))
+
+        console.print(table)
+
+eclair = Attaque("Éclair", "électrique", "speciale", 100, 40, 30)
+
+eclair.afficher()
