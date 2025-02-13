@@ -1,5 +1,6 @@
 from rich.console import Console
 from rich.table import Table
+from attaque import *
 
 console = Console(width=200)
 
@@ -40,14 +41,21 @@ class Pokemon:
         table.add_column("Type 2", style="magenta", justify="center", no_wrap=True)
         table.add_column("Point de vie", style="red", justify="center", no_wrap=True)
         table.add_column("Niveau", style="blue", justify="center", no_wrap=True)
-        table.add_column("Attaque", style="yellow", justify="center", no_wrap=True)
-        table.add_column("Attaque speciale", style="yellow", justify="center", no_wrap=True)
-        table.add_column("Defense", style="yellow", justify="center", no_wrap=True)
-        table.add_column("Defense speciale", style="yellow", justify="center", no_wrap=True)
-        table.add_column("Vitesse", style="yellow", justify="center", no_wrap=True)
-        table.add_column("Attaques", style="yellow", justify="center", no_wrap=True)
 
-        table.add_row(self.nom, str(self.prix), self.type1, self.type2, str(self.point_de_vie), str(self.niveau), str(self.attaque), str(self.attaque_speciale), str(self.defense), str(self.defense_speciale), str(self.vitesse), str(self.attaques))
+        table.add_row(self.nom, str(self.prix), self.type1, self.type2, str(self.point_de_vie), str(self.niveau))
+
+        console.print(table)
+
+    def afficher_attaques(self):
+        table = Table(title="Attaques")
+
+        table.add_column("Attaque", style="cyan", justify="center", no_wrap=True)
+        table.add_column("Attaque Spéciale", style="green", justify="center", no_wrap=True)
+        table.add_column("Defense", style="magenta", justify="center", no_wrap=True)
+        table.add_column("Defense Spéciale", style="red", justify="center", no_wrap=True)
+        table.add_column("Vitesse", style="blue", justify="center", no_wrap=True)
+
+        table.add_row(str(self.attaque), str(self.attaque_speciale), str(self.defense), str(self.defense_speciale), str(self.vitesse))
 
         console.print(table)
 
@@ -56,8 +64,11 @@ class Pokemon:
             return True
         else:
             return False
+        
+    def ajouter_attaque(self, attaque):
+        self.attaques.append(attaque)
 
-
-pikachu = Pokemon("Pikachu", 1000, "Electrique", "AUCUN", 35, 1, 55, 50, 40, 50, 90, ["Eclair", "Vive-attaque", "Tonnerre", "Fatal-foudre"])
-salameche = Pokemon("Salameche", 1000, "Feu", "AUCUN", 39, 1, 52, 60, 43, 50, 65, ["Griffe", "Flammeche", "Lance-flamme", "Tranche"])
-
+    def attaquer(self, attaque, adversaire):
+        degats = attaque.calculer_degats(self, adversaire)
+        adversaire.point_de_vie -= degats
+        return degats
