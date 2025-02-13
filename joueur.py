@@ -1,6 +1,7 @@
 from rich.console import Console
 from rich.table import Table
 from pokemon import Pokemon
+from attaque import charge, pistolet_a_o, morsure, ecume, tranch_herbe, fouet_lianes, vampigraine, griffe, flammeche, groz_yeux, rugissement, teleport, saisie, choc_mental, ecras_face, poing_karate, balayage, frappe_atlas, dynamopoing
 
 console = Console(width=200)
 
@@ -63,7 +64,7 @@ class Joueur:
 
         console.print(table)
 
-        for i in range(3):
+        while len(self.pokemons) < 3:
             choix = input("Choisissez votre Pokemon (Carapuce, Bulbizarre, Salameche, Mystherbe, Abra, Machoc) : ")
 
             if choix in ["Carapuce", "Bulbizarre", "Salameche", "Mystherbe", "Abra", "Machoc"]:
@@ -71,8 +72,7 @@ class Joueur:
                     if pokemon.nom == choix:
                         self.ajouter_pokemon(pokemon)
                         print("Vous avez choisi " + choix)
-                    else:
-                        console.print("Le Pokemon n'existe pas", style="red")
+                        break
             else:
                 console.print("Le Pokemon n'existe pas", style="red")
 

@@ -30,24 +30,32 @@ class Jeu:
         while True:
             for joueur_actuel in self.joueurs:
                 console.print(f"{joueur_actuel.nom}, c'est votre tour.")
-                pokemon_attaquant = joueur_actuel.recuperer_pokemon()
+                pokemon_attaquant = None
+                while not pokemon_attaquant:
+                    pokemon_attaquant = joueur_actuel.recuperer_pokemon()
+                
                 adversaire = self.joueurs[1] if joueur_actuel == self.joueurs[0] else self.joueurs[0]
-                pokemon_defenseur = adversaire.recuperer_pokemon()
+                pokemon_defenseur = None
+                while not pokemon_defenseur:
+                    pokemon_defenseur = adversaire.recuperer_pokemon()
 
                 if pokemon_attaquant and pokemon_defenseur:
-                    attaque_choisie = input(f"Choisissez une attaque parmi {pokemon_attaquant.attaques}: ")
-                    attaque = next((a for a in pokemon_attaquant.attaques if a.nom == attaque_choisie), None)
-                    if attaque:
-                        degats = pokemon_attaquant.attaquer(attaque, pokemon_defenseur)
-                        console.print(f"{pokemon_attaquant.nom} utilise {attaque.nom} et inflige {degats} dégâts à {pokemon_defenseur.nom}.")
-                        if pokemon_defenseur.est_ko():
-                            console.print(f"{pokemon_defenseur.nom} est KO!")
-                            adversaire.pokemons.remove(pokemon_defenseur)
-                            if not adversaire.pokemons:
-                                console.print(f"{joueur_actuel.nom} a gagné!")
-                                return
-                    else:
-                        console.print("Attaque non valide.", style="red")
+                    while True:
+                        noms_attaques = [attaque.nom for attaque in pokemon_attaquant.attaques]
+                        attaque_choisie = input(f"Choisissez une attaque parmi {noms_attaques}: ")
+                        attaque = next((a for a in pokemon_attaquant.attaques if a.nom == attaque_choisie), None)
+                        if attaque:
+                            degats = pokemon_attaquant.attaquer(attaque, pokemon_defenseur)
+                            console.print(f"{pokemon_attaquant.nom} utilise {attaque.nom} et inflige {degats} dégâts à {pokemon_defenseur.nom}.")
+                            if pokemon_defenseur.est_ko():
+                                console.print(f"{pokemon_defenseur.nom} est KO!")
+                                adversaire.pokemons.remove(pokemon_defenseur)
+                                if not adversaire.pokemons:
+                                    console.print(f"{joueur_actuel.nom} a gagné!")
+                                    return
+                            break
+                        else:
+                            console.print("Attaque non valide.", style="red")
                 else:
                     console.print("Pokémon non valide.", style="red")
 
