@@ -17,8 +17,9 @@ class Pokemon:
     defense_speciale = 0
     vitesse = 0
     attaques = []
+    proprietaire = None
 
-    def __init__(self, nom, prix, type1, type2, point_de_vie, niveau, attaque, attaque_speciale, defense, defense_speciale, vitesse, attaques):
+    def __init__(self, nom, prix, type1, type2, point_de_vie, niveau, attaque, attaque_speciale, defense, defense_speciale, vitesse, attaques, proprietaire=None):
         self.nom = nom
         self.prix = prix
         self.type1 = type1
@@ -31,6 +32,7 @@ class Pokemon:
         self.defense_speciale = defense_speciale
         self.vitesse = vitesse
         self.attaques = attaques
+        self.proprietaire = proprietaire
 
     def afficher(self):
         table = Table(title="Pokemon")
@@ -41,8 +43,9 @@ class Pokemon:
         table.add_column("Type 2", style="magenta", justify="center", no_wrap=True)
         table.add_column("Point de vie", style="red", justify="center", no_wrap=True)
         table.add_column("Niveau", style="blue", justify="center", no_wrap=True)
+        table.add_column("Propriétaire", style="yellow", justify="center", no_wrap=True)
 
-        table.add_row(self.nom, str(self.prix), self.type1, self.type2, str(self.point_de_vie), str(self.niveau))
+        table.add_row(self.nom, str(self.prix), self.type1, self.type2, str(self.point_de_vie), str(self.niveau), self.proprietaire)
 
         console.print(table)
 
@@ -60,11 +63,8 @@ class Pokemon:
         console.print(table)
 
     def est_ko(self):
-        if self.point_de_vie <= 0:
-            return True
-        else:
-            return False
-        
+        return self.point_de_vie <= 0
+
     def ajouter_attaque(self, attaque):
         self.attaques.append(attaque)
 
